@@ -58,6 +58,43 @@ Each detection rule is mapped to a MITRE ATT&CK tactic and assigned a severity l
 
 ---
 
+## Screenshots
+
+### 1. CloudTrail Trail Active
+![CloudTrail Trail Active](screenshots/01_cloudtrail_trail_active.png.png)
+
+### 2. S3 Buckets Created
+![S3 Buckets](screenshots/02_s3_buckets.png.png)
+
+### 3. SNS Subscription Confirmed
+![SNS Subscription Confirmed](screenshots/03_sns_subscription_confirmed.png.png)
+
+### 4. IAM Role Created
+![IAM Role Created](screenshots/04_iam_role_created.png.png)
+
+### 5. DynamoDB Table Created
+![DynamoDB Table](screenshots/05_dynamodb_table_created.png.png)
+
+### 6. Lambda Function Created
+![Lambda Function](screenshots/06_lambda_function_created.png.png)
+
+### 7. Lambda S3 Trigger Connected
+![Lambda S3 Trigger](screenshots/07_lambda_s3_trigger.png.png)
+
+### 8. Alert Email Received
+![Alert Email](screenshots/08_alert_email_createuser.png.png)
+
+### 9. DynamoDB Alert Logged
+![DynamoDB Alert](screenshots/09_dynamodb_alert_logged.png.png)
+
+### 10. CloudWatch Invocations
+![CloudWatch Invocations](screenshots/10_cloudwatch_invocations.png.png)
+
+### 11. CloudWatch Log Events
+![CloudWatch Log Events](screenshots/11_cloudwatch_log_events.png.png)
+
+---
+
 ## Alert Schema
 
 Each alert is sent via SNS email and logged to DynamoDB in the following format:
@@ -71,33 +108,6 @@ Each alert is sent via SNS email and logged to DynamoDB in the following format:
   "region": "us-east-1",
   "time": "2026-06-28T01:24:27Z"
 }
-```
-
----
-
-## Repository Structure
-
-```
-aws-cloudtrail-threat-detector/
-├── README.md
-├── lambda/
-│   └── detector.py          # Core detection logic
-├── iac/
-│   ├── iam_policy.json      # IAM role policy
-│   └── setup_instructions.md
-├── detections/
-│   └── rules.md             # Detection rules with MITRE mapping
-└── screenshots/
-    ├── 01_cloudtrail_trail_active.png
-    ├── 02_s3_buckets.png
-    ├── 03_sns_subscription_confirmed.png
-    ├── 04_iam_role_created.png
-    ├── 05_dynamodb_table_created.png
-    ├── 06_lambda_function_created.png
-    ├── 07_lambda_s3_trigger.png
-    ├── 08_alert_email_createuser.png
-    ├── 09_dynamodb_alert_logged.png
-    └── 10_cloudwatch_invocations.png
 ```
 
 ---
