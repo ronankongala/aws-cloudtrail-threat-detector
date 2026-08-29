@@ -61,37 +61,37 @@ Each detection rule is mapped to a MITRE ATT&CK tactic and assigned a severity l
 ## Screenshots
 
 ### 1. CloudTrail Trail Active
-![CloudTrail Trail Active](screenshots/01_cloudtrail_trail_active.png.png)
+![CloudTrail Trail Active](screenshots/01_cloudtrail_trail_active.png)
 
 ### 2. S3 Buckets Created
-![S3 Buckets](screenshots/02_s3_buckets.png.png)
+![S3 Buckets](screenshots/02_s3_buckets.png)
 
 ### 3. SNS Subscription Confirmed
-![SNS Subscription Confirmed](screenshots/03_sns_subscription_confirmed.png.png)
+![SNS Subscription Confirmed](screenshots/03_sns_subscription_confirmed.png)
 
 ### 4. IAM Role Created
-![IAM Role Created](screenshots/04_iam_role_created.png.png)
+![IAM Role Created](screenshots/04_iam_role_created.png)
 
 ### 5. DynamoDB Table Created
-![DynamoDB Table](screenshots/05_dynamodb_table_created.png.png)
+![DynamoDB Table](screenshots/05_dynamodb_table_created.png)
 
 ### 6. Lambda Function Created
-![Lambda Function](screenshots/06_lambda_function_created.png.png)
+![Lambda Function](screenshots/06_lambda_function_created.png)
 
 ### 7. Lambda S3 Trigger Connected
-![Lambda S3 Trigger](screenshots/07_lambda_s3_trigger.png.png)
+![Lambda S3 Trigger](screenshots/07_lambda_s3_trigger.png)
 
 ### 8. Alert Email Received
-![Alert Email](screenshots/08_alert_email_createuser.png.png)
+![Alert Email](screenshots/08_alert_email_createuser.png)
 
 ### 9. DynamoDB Alert Logged
-![DynamoDB Alert](screenshots/09_dynamodb_alert_logged.png.png)
+![DynamoDB Alert](screenshots/09_dynamodb_alert_logged.png)
 
 ### 10. CloudWatch Invocations
-![CloudWatch Invocations](screenshots/10_cloudwatch_invocations.png.png)
+![CloudWatch Invocations](screenshots/10_cloudwatch_invocations.png)
 
 ### 11. CloudWatch Log Events
-![CloudWatch Log Events](screenshots/11_cloudwatch_log_events.png.png)
+![CloudWatch Log Events](screenshots/11_cloudwatch_log_events.png)
 
 ---
 
