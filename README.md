@@ -1,6 +1,8 @@
 # AWS CloudTrail Threat Detection Pipeline
 
-A serverless AWS security pipeline that automatically detects and alerts on suspicious IAM and CloudTrail activity in real time, with full audit logging and MITRE ATT&CK mapping.
+A serverless AWS security pipeline that detects and alerts on suspicious IAM and CloudTrail activity within minutes of it happening, with an audit log of every alert and MITRE ATT&CK mapping.
+
+CloudTrail delivers log files to S3 in batches, typically about every 5 minutes, and each new file triggers the Lambda detector. Alert latency is therefore bounded by CloudTrail delivery, not by the pipeline.
 
 ---
 
@@ -31,9 +33,9 @@ AWS Lambda (Python 3.12)
 | AWS CloudTrail | Captures all management API events across all regions |
 | Amazon S3 | Stores compressed CloudTrail log files |
 | AWS Lambda | Parses logs and runs detection rules |
-| Amazon SNS | Sends real-time email alerts on detections |
+| Amazon SNS | Sends an email alert for each detection |
 | Amazon DynamoDB | Persists every alert as an audit log record |
-| AWS IAM | Least-privilege execution role for Lambda |
+| AWS IAM | Execution role for Lambda (AWS managed policies; see Step 2 for scoping) |
 | Amazon CloudWatch | Stores Lambda execution and detection logs |
 
 ---
@@ -60,51 +62,35 @@ Each detection rule is mapped to a MITRE ATT&CK tactic and assigned a severity l
 
 ## Screenshots
 
-### 1. CloudTrail Trail Active
+Setup, in order: the active multi-region trail, the S3 buckets, the confirmed SNS subscription, the IAM role, the DynamoDB table, the Lambda function, and its S3 trigger.
+
 ![CloudTrail Trail Active](screenshots/01_cloudtrail_trail_active.png)
-
-### 2. S3 Buckets Created
 ![S3 Buckets](screenshots/02_s3_buckets.png)
-
-### 3. SNS Subscription Confirmed
 ![SNS Subscription Confirmed](screenshots/03_sns_subscription_confirmed.png)
-
-### 4. IAM Role Created
 ![IAM Role Created](screenshots/04_iam_role_created.png)
-
-### 5. DynamoDB Table Created
 ![DynamoDB Table](screenshots/05_dynamodb_table_created.png)
-
-### 6. Lambda Function Created
 ![Lambda Function](screenshots/06_lambda_function_created.png)
-
-### 7. Lambda S3 Trigger Connected
 ![Lambda S3 Trigger](screenshots/07_lambda_s3_trigger.png)
 
-### 8. Alert Email Received
+A `CreateUser` test producing the alert email, the matching DynamoDB record, and the Lambda invocations and log events in CloudWatch:
+
 ![Alert Email](screenshots/08_alert_email_createuser.png)
-
-### 9. DynamoDB Alert Logged
 ![DynamoDB Alert](screenshots/09_dynamodb_alert_logged.png)
-
-### 10. CloudWatch Invocations
 ![CloudWatch Invocations](screenshots/10_cloudwatch_invocations.png)
-
-### 11. CloudWatch Log Events
 ![CloudWatch Log Events](screenshots/11_cloudwatch_log_events.png)
 
 ---
 
 ## Alert Schema
 
-Each alert is sent via SNS email and logged to DynamoDB in the following format:
+Each alert is sent via SNS email and logged to DynamoDB in the following format (account ID and IP redacted):
 
 ```json
 {
   "severity": "HIGH",
   "event": "CreateUser",
-  "user": "arn:aws:iam::058264465854:root",
-  "source_ip": "172.220.69.40",
+  "user": "arn:aws:iam::123456789012:root",
+  "source_ip": "203.0.113.10",
   "region": "us-east-1",
   "time": "2026-06-28T01:24:27Z"
 }
@@ -125,6 +111,8 @@ Each alert is sent via SNS email and logged to DynamoDB in the following format:
 ### Step 2: Create IAM Role
 - Create role `cloudtrail-detector-role` for Lambda
 - Attach: `AmazonS3ReadOnlyAccess`, `AmazonSNSFullAccess`, `AmazonDynamoDBFullAccess`, `CloudWatchLogsFullAccess`
+
+These AWS managed policies get the lab running quickly but are broader than the function needs: the FullAccess policies grant every SNS, DynamoDB and CloudWatch Logs action on all resources. A least-privilege role would instead use an inline policy limited to `s3:GetObject` on the CloudTrail bucket, `sns:Publish` on the `cloudtrail-alerts` topic, `dynamodb:PutItem` on the `cloudtrail-alert-log` table, and `logs:CreateLogGroup`, `logs:CreateLogStream` and `logs:PutLogEvents` for the function's log group.
 
 ### Step 3: Create SNS Topic
 - Create standard topic `cloudtrail-alerts`
@@ -151,17 +139,4 @@ Trigger detections by performing IAM actions (create user, attach policy) and ve
 
 ## Results
 
-- 11 detection rules covering CRITICAL, HIGH, MEDIUM, and LOW severity events
-- 6 Lambda invocations logged with 100% success rate and 0 errors
-- Real-time email alerts confirmed working end to end
-- Full audit trail persisted in DynamoDB
-
----
-
-## Skills Demonstrated
-
-- AWS serverless architecture (Lambda, S3, SNS, DynamoDB, CloudTrail)
-- IAM least-privilege role design
-- Security detection engineering with MITRE ATT&CK mapping
-- Python security automation (boto3)
-- Cloud threat detection and incident alerting
+The 11 rules span all four severity levels (CRITICAL, HIGH, MEDIUM, LOW). In testing, CloudWatch recorded 6 Lambda invocations with a 100% success rate and 0 errors, and the test detections produced both an email alert and a DynamoDB record.
