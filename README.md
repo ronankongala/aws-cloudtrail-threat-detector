@@ -65,18 +65,27 @@ Each detection rule is mapped to a MITRE ATT&CK tactic and assigned a severity l
 Setup, in order: the active multi-region trail, the S3 buckets, the confirmed SNS subscription, the IAM role, the DynamoDB table, the Lambda function, and its S3 trigger.
 
 ![CloudTrail Trail Active](screenshots/01_cloudtrail_trail_active.png)
+
 ![S3 Buckets](screenshots/02_s3_buckets.png)
+
 ![SNS Subscription Confirmed](screenshots/03_sns_subscription_confirmed.png)
+
 ![IAM Role Created](screenshots/04_iam_role_created.png)
+
 ![DynamoDB Table](screenshots/05_dynamodb_table_created.png)
+
 ![Lambda Function](screenshots/06_lambda_function_created.png)
+
 ![Lambda S3 Trigger](screenshots/07_lambda_s3_trigger.png)
 
 A `CreateUser` test producing the alert email, the matching DynamoDB record, and the Lambda invocations and log events in CloudWatch:
 
 ![Alert Email](screenshots/08_alert_email_createuser.png)
+
 ![DynamoDB Alert](screenshots/09_dynamodb_alert_logged.png)
+
 ![CloudWatch Invocations](screenshots/10_cloudwatch_invocations.png)
+
 ![CloudWatch Log Events](screenshots/11_cloudwatch_log_events.png)
 
 ---
