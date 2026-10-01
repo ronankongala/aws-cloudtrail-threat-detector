@@ -8,7 +8,7 @@ sns = boto3.client('sns')
 dynamodb = boto3.resource('dynamodb')
 
 # Update this with your SNS Topic ARN
-SNS_TOPIC_ARN = "arn:aws:sns:us-east-1:058264465854:cloudtrail-alerts"
+SNS_TOPIC_ARN = "arn:aws:sns:us-east-1:123456789012:cloudtrail-alerts"
 DYNAMO_TABLE = "cloudtrail-alert-log"
 
 # Detection rules mapped to severity levels
